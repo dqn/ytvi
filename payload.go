@@ -16,27 +16,41 @@ type PlayerResponse struct {
 	Endscreen         Endscreen         `json:"endscreen"`
 }
 
-type Params struct {
+type Param struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
-type ServiceTrackingParams struct {
-	Service string   `json:"service"`
-	Params  []Params `json:"params"`
+type ServiceTrackingParam struct {
+	Service string  `json:"service"`
+	Params  []Param `json:"params"`
+}
+
+type WebResponseContextExtensionData struct {
+	HasDecorated bool `json:"hasDecorated"`
 }
 
 type ResponseContext struct {
-	ServiceTrackingParams []ServiceTrackingParams `json:"serviceTrackingParams"`
+	ServiceTrackingParams           []ServiceTrackingParam          `json:"serviceTrackingParams"`
+	WebResponseContextExtensionData WebResponseContextExtensionData `json:"webResponseContextExtensionData"`
+}
+
+type MiniplayerRenderer struct {
+	PlaybackMode string `json:"playbackMode"`
+}
+
+type Miniplayer struct {
+	MiniplayerRenderer MiniplayerRenderer `json:"miniplayerRenderer"`
 }
 
 type PlayabilityStatus struct {
-	Status          string `json:"status"`
-	PlayableInEmbed bool   `json:"playableInEmbed"`
-	ContextParams   string `json:"contextParams"`
+	Status          string     `json:"status"`
+	PlayableInEmbed bool       `json:"playableInEmbed"`
+	ContextParams   string     `json:"contextParams"`
+	Miniplayer      Miniplayer `json:"miniplayer"`
 }
 
-type Formats struct {
+type Format struct {
 	Itag             int    `json:"itag"`
 	MimeType         string `json:"mimeType"`
 	Bitrate          int    `json:"bitrate"`
@@ -56,90 +70,60 @@ type Formats struct {
 	SignatureCipher  string `json:"signatureCipher"`
 }
 
-type InitRange struct {
-	Start string `json:"start"`
-	End   string `json:"end"`
-}
-
-type IndexRange struct {
+type Range struct {
 	Start string `json:"start"`
 	End   string `json:"end"`
 }
 
 type ColorInfo struct {
-	Primaries               string `json:"primaries"`
-	TransferCharacteristics string `json:"transferCharacteristics"`
-	MatrixCoefficients      string `json:"matrixCoefficients"`
+	Primaries               string `json:"primaries,omitempty"`
+	TransferCharacteristics string `json:"transferCharacteristics,omitempty"`
+	MatrixCoefficients      string `json:"matrixCoefficients,omitempty"`
 }
 
-type AdaptiveFormats struct {
-	Itag             int        `json:"itag"`
-	MimeType         string     `json:"mimeType"`
-	Bitrate          int        `json:"bitrate"`
-	Width            int        `json:"width,omitempty"`
-	Height           int        `json:"height,omitempty"`
-	InitRange        InitRange  `json:"initRange"`
-	IndexRange       IndexRange `json:"indexRange"`
-	LastModified     string     `json:"lastModified"`
-	ContentLength    string     `json:"contentLength"`
-	Quality          string     `json:"quality"`
-	Fps              int        `json:"fps,omitempty"`
-	QualityLabel     string     `json:"qualityLabel,omitempty"`
-	ProjectionType   string     `json:"projectionType"`
-	AverageBitrate   int        `json:"averageBitrate"`
-	ApproxDurationMs string     `json:"approxDurationMs"`
-	SignatureCipher  string     `json:"signatureCipher"`
-	ColorInfo        ColorInfo  `json:"colorInfo,omitempty"`
-	HighReplication  bool       `json:"highReplication,omitempty"`
-	AudioQuality     string     `json:"audioQuality,omitempty"`
-	AudioSampleRate  string     `json:"audioSampleRate,omitempty"`
-	AudioChannels    int        `json:"audioChannels,omitempty"`
+type AdaptiveFormat struct {
+	Itag             int       `json:"itag"`
+	MimeType         string    `json:"mimeType"`
+	Bitrate          int       `json:"bitrate"`
+	Width            int       `json:"width,omitempty"`
+	Height           int       `json:"height,omitempty"`
+	InitRange        Range     `json:"initRange"`
+	IndexRange       Range     `json:"indexRange"`
+	LastModified     string    `json:"lastModified"`
+	ContentLength    string    `json:"contentLength"`
+	Quality          string    `json:"quality"`
+	Fps              int       `json:"fps,omitempty"`
+	QualityLabel     string    `json:"qualityLabel,omitempty"`
+	ProjectionType   string    `json:"projectionType"`
+	AverageBitrate   int       `json:"averageBitrate"`
+	ApproxDurationMs string    `json:"approxDurationMs"`
+	SignatureCipher  string    `json:"signatureCipher"`
+	ColorInfo        ColorInfo `json:"colorInfo,omitempty"`
+	HighReplication  bool      `json:"highReplication,omitempty"`
+	AudioQuality     string    `json:"audioQuality,omitempty"`
+	AudioSampleRate  string    `json:"audioSampleRate,omitempty"`
+	AudioChannels    int       `json:"audioChannels,omitempty"`
 }
 
 type StreamingData struct {
-	ExpiresInSeconds string            `json:"expiresInSeconds"`
-	Formats          []Formats         `json:"formats"`
-	AdaptiveFormats  []AdaptiveFormats `json:"adaptiveFormats"`
+	ExpiresInSeconds string           `json:"expiresInSeconds"`
+	Formats          []Format         `json:"formats"`
+	AdaptiveFormats  []AdaptiveFormat `json:"adaptiveFormats"`
 }
 
-type VideostatsPlaybackURL struct {
-	BaseURL string `json:"baseUrl"`
-}
-
-type VideostatsDelayplayURL struct {
-	BaseURL string `json:"baseUrl"`
-}
-
-type VideostatsWatchtimeURL struct {
-	BaseURL string `json:"baseUrl"`
-}
-
-type PtrackingURL struct {
-	BaseURL string `json:"baseUrl"`
-}
-
-type QoeURL struct {
-	BaseURL string `json:"baseUrl"`
-}
-
-type SetAwesomeURL struct {
+type URL struct {
 	BaseURL                 string `json:"baseUrl"`
-	ElapsedMediaTimeSeconds int    `json:"elapsedMediaTimeSeconds"`
-}
-
-type AtrURL struct {
-	BaseURL                 string `json:"baseUrl"`
-	ElapsedMediaTimeSeconds int    `json:"elapsedMediaTimeSeconds"`
+	ElapsedMediaTimeSeconds int    `json:"elapsedMediaTimeSeconds,omitempty"`
 }
 
 type PlaybackTracking struct {
-	VideostatsPlaybackURL  VideostatsPlaybackURL  `json:"videostatsPlaybackUrl"`
-	VideostatsDelayplayURL VideostatsDelayplayURL `json:"videostatsDelayplayUrl"`
-	VideostatsWatchtimeURL VideostatsWatchtimeURL `json:"videostatsWatchtimeUrl"`
-	PtrackingURL           PtrackingURL           `json:"ptrackingUrl"`
-	QoeURL                 QoeURL                 `json:"qoeUrl"`
-	SetAwesomeURL          SetAwesomeURL          `json:"setAwesomeUrl"`
-	AtrURL                 AtrURL                 `json:"atrUrl"`
+	VideostatsPlaybackURL  URL `json:"videostatsPlaybackUrl"`
+	VideostatsDelayplayURL URL `json:"videostatsDelayplayUrl"`
+	VideostatsWatchtimeURL URL `json:"videostatsWatchtimeUrl"`
+	PtrackingURL           URL `json:"ptrackingUrl"`
+	QoeURL                 URL `json:"qoeUrl"`
+	SetAwesomeURL          URL `json:"setAwesomeUrl"`
+	AtrURL                 URL `json:"atrUrl"`
 }
 
 type VideoThumbnail struct {
@@ -196,8 +180,19 @@ type WebPlayerShareEntityServiceEndpoint struct {
 	SerializedShareEntity string `json:"serializedShareEntity"`
 }
 
+type WebCommandMetadata struct {
+	URL      string `json:"url"`
+	SendPost bool   `json:"sendPost"`
+	APIURL   string `json:"apiUrl"`
+}
+
+type CommandMetadata struct {
+	WebCommandMetadata WebCommandMetadata `json:"webCommandMetadata"`
+}
+
 type GetSharePanelCommand struct {
 	ClickTrackingParams                 string                              `json:"clickTrackingParams"`
+	CommandMetadata                     CommandMetadata                     `json:"commandMetadata"`
 	WebPlayerShareEntityServiceEndpoint WebPlayerShareEntityServiceEndpoint `json:"webPlayerShareEntityServiceEndpoint"`
 }
 
@@ -211,42 +206,33 @@ type SubscribeCommand struct {
 	SubscribeEndpoint   SubscribeEndpoint `json:"subscribeEndpoint"`
 }
 
-type UnsubscribeEndpoint struct {
-	ChannelIds []string `json:"channelIds"`
-	Params     string   `json:"params"`
-}
-
 type UnsubscribeCommand struct {
-	ClickTrackingParams string              `json:"clickTrackingParams"`
-	UnsubscribeEndpoint UnsubscribeEndpoint `json:"unsubscribeEndpoint"`
+	ClickTrackingParams string            `json:"clickTrackingParams"`
+	UnsubscribeEndpoint SubscribeEndpoint `json:"unsubscribeEndpoint"`
 }
 
-type Actions struct {
-	AddedVideoID string `json:"addedVideoId"`
-	Action       string `json:"action"`
+type Action struct {
+	AddedVideoID   string `json:"addedVideoId"`
+	RemovedVideoID string `json:"removedVideoId"`
+	Action         string `json:"action"`
 }
 
 type PlaylistEditEndpoint struct {
-	PlaylistID string    `json:"playlistId"`
-	Actions    []Actions `json:"actions"`
+	PlaylistID string   `json:"playlistId"`
+	Actions    []Action `json:"actions"`
 }
 
-type AddToWatchLaterCommand struct {
-	ClickTrackingParams  string               `json:"clickTrackingParams"`
-	PlaylistEditEndpoint PlaylistEditEndpoint `json:"playlistEditEndpoint"`
-}
-
-type RemoveFromWatchLaterCommand struct {
+type WatchLaterCommand struct {
 	ClickTrackingParams  string               `json:"clickTrackingParams"`
 	PlaylistEditEndpoint PlaylistEditEndpoint `json:"playlistEditEndpoint"`
 }
 
 type WebPlayerActionsPorting struct {
-	GetSharePanelCommand        GetSharePanelCommand        `json:"getSharePanelCommand"`
-	SubscribeCommand            SubscribeCommand            `json:"subscribeCommand"`
-	UnsubscribeCommand          UnsubscribeCommand          `json:"unsubscribeCommand"`
-	AddToWatchLaterCommand      AddToWatchLaterCommand      `json:"addToWatchLaterCommand"`
-	RemoveFromWatchLaterCommand RemoveFromWatchLaterCommand `json:"removeFromWatchLaterCommand"`
+	GetSharePanelCommand        GetSharePanelCommand `json:"getSharePanelCommand"`
+	SubscribeCommand            SubscribeCommand     `json:"subscribeCommand"`
+	UnsubscribeCommand          UnsubscribeCommand   `json:"unsubscribeCommand"`
+	AddToWatchLaterCommand      WatchLaterCommand    `json:"addToWatchLaterCommand"`
+	RemoveFromWatchLaterCommand WatchLaterCommand    `json:"removeFromWatchLaterCommand"`
 }
 
 type WebPlayerConfig struct {
@@ -348,18 +334,6 @@ type Title struct {
 	SimpleText    string        `json:"simpleText"`
 }
 
-type Metadata struct {
-	SimpleText string `json:"simpleText"`
-}
-
-type CallToAction struct {
-	SimpleText string `json:"simpleText"`
-}
-
-type Dismiss struct {
-	SimpleText string `json:"simpleText"`
-}
-
 type BrowseEndpoint struct {
 	BrowseID string `json:"browseId"`
 }
@@ -370,44 +344,32 @@ type Endpoint struct {
 	WatchEndpoint       WatchEndpoint  `json:"watchEndpoint,omitempty"`
 }
 
-type Runs struct {
+type Run struct {
 	Text string `json:"text"`
 }
 
-type ButtonText struct {
-	Runs []Runs `json:"runs"`
+type TextRun struct {
+	Runs []Run `json:"runs"`
 }
 
-type SubscribedButtonText struct {
-	Runs []Runs `json:"runs"`
-}
-
-type UnsubscribedButtonText struct {
-	Runs []Runs `json:"runs"`
-}
-
-type UnsubscribeButtonText struct {
-	Runs []Runs `json:"runs"`
-}
-
-type ServiceEndpoints struct {
-	ClickTrackingParams string              `json:"clickTrackingParams"`
-	SubscribeEndpoint   SubscribeEndpoint   `json:"subscribeEndpoint,omitempty"`
-	UnsubscribeEndpoint UnsubscribeEndpoint `json:"unsubscribeEndpoint,omitempty"`
+type ServiceEndpoint struct {
+	ClickTrackingParams string            `json:"clickTrackingParams"`
+	SubscribeEndpoint   SubscribeEndpoint `json:"subscribeEndpoint,omitempty"`
+	UnsubscribeEndpoint SubscribeEndpoint `json:"unsubscribeEndpoint,omitempty"`
 }
 
 type SubscribeButtonRenderer struct {
-	ButtonText             ButtonText             `json:"buttonText"`
-	Subscribed             bool                   `json:"subscribed"`
-	Enabled                bool                   `json:"enabled"`
-	Type                   string                 `json:"type"`
-	ChannelID              string                 `json:"channelId"`
-	ShowPreferences        bool                   `json:"showPreferences"`
-	SubscribedButtonText   SubscribedButtonText   `json:"subscribedButtonText"`
-	UnsubscribedButtonText UnsubscribedButtonText `json:"unsubscribedButtonText"`
-	TrackingParams         string                 `json:"trackingParams"`
-	UnsubscribeButtonText  UnsubscribeButtonText  `json:"unsubscribeButtonText"`
-	ServiceEndpoints       []ServiceEndpoints     `json:"serviceEndpoints"`
+	ButtonText             TextRun           `json:"buttonText"`
+	Subscribed             bool              `json:"subscribed"`
+	Enabled                bool              `json:"enabled"`
+	Type                   string            `json:"type"`
+	ChannelID              string            `json:"channelId"`
+	ShowPreferences        bool              `json:"showPreferences"`
+	SubscribedButtonText   TextRun           `json:"subscribedButtonText"`
+	UnsubscribedButtonText TextRun           `json:"unsubscribedButtonText"`
+	TrackingParams         string            `json:"trackingParams"`
+	UnsubscribeButtonText  TextRun           `json:"unsubscribeButtonText"`
+	ServiceEndpoints       []ServiceEndpoint `json:"serviceEndpoints"`
 }
 
 type HovercardButton struct {
@@ -421,7 +383,7 @@ type SigninEndpoint struct {
 type EndscreenElementRenderer struct {
 	Style                     string          `json:"style"`
 	Image                     Image           `json:"image"`
-	VideoDuration             VideoDuration   `json:"videoDuration,omitempty"`
+	VideoDuration             Text            `json:"videoDuration,omitempty"`
 	Icon                      Icon            `json:"icon,omitempty"`
 	Left                      float64         `json:"left"`
 	Width                     float64         `json:"width"`
@@ -430,9 +392,9 @@ type EndscreenElementRenderer struct {
 	StartMs                   string          `json:"startMs"`
 	EndMs                     string          `json:"endMs"`
 	Title                     Title           `json:"title"`
-	Metadata                  Metadata        `json:"metadata"`
-	CallToAction              CallToAction    `json:"callToAction,omitempty"`
-	Dismiss                   Dismiss         `json:"dismiss,omitempty"`
+	Metadata                  Text            `json:"metadata"`
+	CallToAction              Text            `json:"callToAction,omitempty"`
+	Dismiss                   Text            `json:"dismiss,omitempty"`
 	Endpoint                  Endpoint        `json:"endpoint"`
 	HovercardButton           HovercardButton `json:"hovercardButton,omitempty"`
 	TrackingParams            string          `json:"trackingParams"`
@@ -442,22 +404,18 @@ type EndscreenElementRenderer struct {
 	ID                        string          `json:"id"`
 }
 
-type VideoDuration struct {
-	SimpleText string `json:"simpleText"`
-}
-
 type WatchEndpoint struct {
 	VideoID string `json:"videoId"`
 }
 
-type Elements struct {
+type Element struct {
 	EndscreenElementRenderer EndscreenElementRenderer `json:"endscreenElementRenderer,omitempty"`
 }
 
 type EndscreenRenderer struct {
-	Elements       []Elements `json:"elements"`
-	StartMs        string     `json:"startMs"`
-	TrackingParams string     `json:"trackingParams"`
+	Elements       []Element `json:"elements"`
+	StartMs        string    `json:"startMs"`
+	TrackingParams string    `json:"trackingParams"`
 }
 
 type Endscreen struct {
