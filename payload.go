@@ -51,6 +51,7 @@ type PlayabilityStatus struct {
 }
 
 type Format struct {
+	URL              string `json:"url,omitempty"`
 	Itag             int    `json:"itag"`
 	MimeType         string `json:"mimeType"`
 	Bitrate          int    `json:"bitrate"`
@@ -82,27 +83,11 @@ type ColorInfo struct {
 }
 
 type AdaptiveFormat struct {
-	Itag             int       `json:"itag"`
-	MimeType         string    `json:"mimeType"`
-	Bitrate          int       `json:"bitrate"`
-	Width            int       `json:"width,omitempty"`
-	Height           int       `json:"height,omitempty"`
-	InitRange        Range     `json:"initRange"`
-	IndexRange       Range     `json:"indexRange"`
-	LastModified     string    `json:"lastModified"`
-	ContentLength    string    `json:"contentLength"`
-	Quality          string    `json:"quality"`
-	Fps              int       `json:"fps,omitempty"`
-	QualityLabel     string    `json:"qualityLabel,omitempty"`
-	ProjectionType   string    `json:"projectionType"`
-	AverageBitrate   int       `json:"averageBitrate"`
-	ApproxDurationMs string    `json:"approxDurationMs"`
-	SignatureCipher  string    `json:"signatureCipher"`
-	ColorInfo        ColorInfo `json:"colorInfo,omitempty"`
-	HighReplication  bool      `json:"highReplication,omitempty"`
-	AudioQuality     string    `json:"audioQuality,omitempty"`
-	AudioSampleRate  string    `json:"audioSampleRate,omitempty"`
-	AudioChannels    int       `json:"audioChannels,omitempty"`
+	Format
+	InitRange       Range     `json:"initRange"`
+	IndexRange      Range     `json:"indexRange"`
+	ColorInfo       ColorInfo `json:"colorInfo,omitempty"`
+	HighReplication bool      `json:"highReplication,omitempty"`
 }
 
 type StreamingData struct {
