@@ -426,7 +426,7 @@ type EndscreenElementRenderer struct {
 	Left                      float64         `json:"left"`
 	Width                     float64         `json:"width"`
 	Top                       float64         `json:"top"`
-	AspectRatio               int             `json:"aspectRatio"`
+	AspectRatio               float64         `json:"aspectRatio"`
 	StartMs                   string          `json:"startMs"`
 	EndMs                     string          `json:"endMs"`
 	Title                     Title           `json:"title"`
